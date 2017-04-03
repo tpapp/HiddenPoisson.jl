@@ -15,11 +15,11 @@ Simulate a hidden state model in continuous time with the following setup:
 4. When an `i` is realized, `next_state(model, state, i)` is used to obtain the next state (which, again, can be an arbitrary object). This function may be stochastic.
 5. `observation(model, state)` is another (possibly stochastic) function for returning an observation for the hidden `state`.
 
-The user needs to define a model structure,
+The user needs to define a model structure, then
 ```julia
 import HiddenPoisson: rates, next_state, observation
 ```
-and then define these methods. Then simulations are obtained using `next_observation` or `next_observations`. See the tests for examples.
+and then define these methods for the model structure. Then simulations are obtained using `next_observation` or `next_observations`. See the tests for examples.
 
 ## How it works
 
