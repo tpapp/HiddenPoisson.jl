@@ -81,20 +81,35 @@ end
 
 @testset "hidden state simulation" begin
     hs = HiddenState(model, 1)
-    count_E = 0
+    E = 0
     N = 100000
     for _ in 1:N
         o, hs = next_observation(hs, 1/12)
         if o == :E
-            count_E += 1
+            E += 1
         end
     end
-    @test isapprox(count_E/N, employment_rate(model); rtol = 0.03)
+    @test isapprox(E/N, employment_rate(model); rtol = 0.03)
+end
+
+@testset "hidden state simulation weighted random duration" begin
+    hs = HiddenState(model, 1)
+    E = 0.0
+    T = 0.0
+    for _ in 1:10000
+        t = abs(randn())
+        o, hs = next_observation(hs, t)
+        T += t
+        if o == :E
+            E += t
+        end
+    end
+    @test isapprox(E/T, employment_rate(model); rtol = 0.03)
 end
 
 @testset "multiple observations" begin
     hs = HiddenState(model, 1)
-    count_E = 0
+    E = 0
     N = 0
     for _ in 1:10000
         ts = abs(randn(rand(1:10)))
@@ -103,9 +118,9 @@ end
         @test length(os) == length(ts)
         for o in os
             if o == :E
-                count_E += 1
+                E += 1
             end
         end
     end
-    @test isapprox(count_E/N, employment_rate(model); rtol = 0.03)
+    @test isapprox(E/N, employment_rate(model); rtol = 0.03)
 end
