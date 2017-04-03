@@ -76,7 +76,7 @@ model = DMPmodel(λ = 0.4, σ = 0.1)
 end
 
 @testset "hidden state constructor" begin
-    @test isapprox(mean(HiddenState(model, 1).T for _ in 1:10000), 1/model.σ; rtol = 0.03)
+    @test isapprox(mean(HiddenState(model, 1).T for _ in 1:10000), 1/model.σ; rtol = 0.05)
 end
 
 @testset "hidden state simulation" begin
