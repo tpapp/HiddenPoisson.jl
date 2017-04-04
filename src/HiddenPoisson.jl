@@ -5,6 +5,8 @@ using Distributions
 using Parameters
 using StatsBase
 
+import Base: show
+
 export
     transitions, observation, # users define methods for these
     HiddenState, next_observation, next_observations # simulation interface
@@ -90,6 +92,14 @@ HiddenState{Tm,Ts,Tt,Tn}(model::Tm, state::Ts, T::Tt, next_state::Tn) =
 
 function HiddenState(model, state)
     HiddenState(model, state, random_transition(model, state)...)
+end
+
+function show(io::IO, hs::HiddenState)
+    @unpack model, state, T, next_state = hs
+    println(io, "HiddenState with model $(model)")
+    println(io, "    state $(state)")
+    println(io, "    time to next shock $(T)")
+    print(io, "    next state $(next_state)")
 end
 
 """

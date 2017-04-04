@@ -123,3 +123,8 @@ end
     end
     @test isapprox(E/N, employment_rate(model); rtol = 0.03)
 end
+
+@testset "show" begin
+    hs = HiddenState(nothing, 1, 2, 3)
+    @test sprint(show, hs) == "HiddenState with model $(hs.model)\n    state $(hs.state)\n    time to next shock $(hs.T)\n    next state $(hs.next_state)"
+end
